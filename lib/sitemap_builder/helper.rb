@@ -1,22 +1,18 @@
-require 'action_controller'
-require 'action_controller/test_process'
-begin
-  require 'application_controller'
-rescue LoadError
-  # Rails < 2.3
-  require 'application'
-end
+#require 'action_controller'
+#require 'action_controller/test_process'
+#begin
+#  require 'application_controller'
+#rescue LoadError
+#  # Rails < 2.3
+#  require 'application'
+#end
 
 module SitemapBuilder
   module Helper
-    def generate_sitemap    
-      controller = ApplicationController.new
-      controller.request = ActionController::TestRequest.new
-      controller.params = {}
-      controller.send(:initialize_current_url)
-      b = controller.instance_eval{binding}
-      sitemap_mapper_file = File.join(RAILS_ROOT, 'config/sitemap.rb')
-      eval(open(sitemap_mapper_file).read, b)
+    def generate_sitemap
+      include Rails.application.routes.url_helpers
+      sitemap_mapper_file = File.join(Rails.root, 'config/sitemap.rb')
+      eval(open(sitemap_mapper_file).read)
     end
     
     def w3c_date(date)

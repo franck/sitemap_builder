@@ -26,10 +26,10 @@ end
 
 require 'jeweler'
 Jeweler::Tasks.new do |gem|
-  gem.name = "sitemap-builder"
+  gem.name = "sitemap_builder"
   gem.summary = "Rails plugins to build sitemap.xml"
   gem.description = "Rails plugins to build sitemap.xml"
   gem.email = "franck.dagostini@gmail.com"
-  gem.homepage = "http://github.com/franck/sitemap-builder"
+  gem.homepage = "http://github.com/franck/sitemap_builder"
   gem.authors = ["Franck D'agostini"]
 end
