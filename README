@@ -1,0 +1,87 @@
+SitemapBuilder
+==============
+
+SitemapBuilder is a rail plugin for sitemap generation. It is heavily based on Adam Salter's Sitemap Generator plugin (git://github.com/adamsalter/sitemap_generator.git).
+
+This plugin is not a fork of Adam's plugin but a complete rewriting since the goal and the way to build sitemap is different.
+
+Indeed, I wanted a way to build seveal sitemap for the same website depending on some paramters such as the site language (see file sitemap_example.rb).
+
+Installation
+============
+
+no gem for now.
+
+    script/plugin install git://github.com/franck/sitemap_builder.git
+
+
+Usage
+=======
+
+Create a sitemap.rb file in config/
+
+Create a sitemap instance:
+
+    sitemap = SitemapBuilder::Sitemap.new(
+      :debug => true,
+      :host => "http://localhost:3000",
+      :filename => "sitemap.yml",
+      :ping_search_engines => true
+    )
+
+    sitemap.add root_path
+    sitemap.add pages_path
+    Page.all.each do |page|
+      sitemap.add page_path(page)
+    end
+    sitemap.add url_for(:controller => "articles", :action => "index", :only_path => true)
+  
+Then add the following lines for the sitemap generation and ping search engines (if set to true):
+
+    sitemap.generate
+    sitemap.ping_search_engines
+
+Then, fire the rake task :
+
+    rake sitemapbuilder:create
+
+I use whenever gem (git://github.com/javan/whenever.git) to schedule a new sitemap creation :
+
+    every 1.week do
+      rake "sitemapbuilder:create"
+    end
+
+    
+A complete example file is available inside the plugin root directory : sitemap_example.rb
+
+Sitemap index
+=============
+
+A sitemap index builder is also provided. Example of config/sitemap.rb:
+
+sitemap_index = SitemapBuilder::SitemapIndex.new()
+sitemap = SitemapBuilder::Sitemap.new()
+sitemap.add root_path
+sitemap_index.sitemaps << sitemap
+sitemap_index.generate
+
+These lines create a sitemap.xml file and a sitemap_index.xml file in the public directory.
+    
+Options
+=======
+
+SitemapBuilder::Sitemap accepts several options :
+* debug: generate sitemap files, verbose, does not ping search engines even if set to true (default: false)
+* host: base url of your website. don't forget the http:// (default: "http://localhost:3000")
+* filename: sitemap name (default: "sitemap.xml")
+* sitemap_folder: indicate a folder where the sitemap is located (default: "", example: "sitemaps")
+* ping_search_engines: ping google, yahoo, bing and ask.com (default: false)
+
+
+TODO
+====
+
+* test coverage
+* handling lot of links and sitemap indexes
+
+Copyright (c) 2009 Franck D'agostini, released under the MIT license
