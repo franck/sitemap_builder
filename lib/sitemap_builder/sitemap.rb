@@ -76,7 +76,7 @@ module SitemapBuilder
     end
         
     def save_file(xml)
-  		File.open(RAILS_ROOT + fullpath, "w+") do |f|
+  		File.open(Rails.root + fullpath, "w+") do |f|
   			f.write(xml)	
   		end		
   	end
@@ -94,13 +94,13 @@ module SitemapBuilder
     end
    
     def deleting_previous_sitemap(sitemap)
-      sitemap_files = Dir[File.join(RAILS_ROOT, sitemap)]
+      sitemap_files = Dir[File.join(Rails.root, sitemap)]
       FileUtils.rm sitemap_files, :verbose => true
     end
     
     def create_sitemap_folder(sitemap_folder)
       return if sitemap_folder.blank?
-      path = RAILS_ROOT + "/public/" + sitemap_folder
+      path = Rails.root + "/public/" + sitemap_folder
       unless File.exists?(path) && File.directory?(path)
         FileUtils.mkdir path, :mode => 0755, :verbose => true
       end

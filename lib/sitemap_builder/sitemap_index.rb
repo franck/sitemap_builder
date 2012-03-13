@@ -28,7 +28,7 @@ module SitemapBuilder
     end
     
     def save_file(xml)
-  		File.open(RAILS_ROOT + fullpath, "w+") do |f|
+  		File.open(Rails.root + fullpath, "w+") do |f|
   			f.write(xml)
   		end		
   	end
