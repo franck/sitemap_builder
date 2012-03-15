@@ -1,3 +1,5 @@
+require 'builder'
+
 module SitemapBuilder  
   class Sitemap  
     attr_accessor :links, :default_host
@@ -14,7 +16,7 @@ module SitemapBuilder
       @default_host = options[:default_host]
       @filename =  options[:filename]
       @sitemap_folder = options[:sitemap_folder]
-      
+      @ping_search_engines = options[:ping_search_engines]
       @links = []
       
       deleting_previous_sitemap(fullpath)
@@ -76,7 +78,8 @@ module SitemapBuilder
     end
         
     def save_file(xml)
-  		File.open(Rails.root + fullpath, "w+") do |f|
+      puts "SAVING FILE : #{File.join(Rails.root, fullpath)}" if @debug
+  		File.open(File.join(Rails.root, fullpath), "w+") do |f|
   			f.write(xml)	
   		end		
   	end
@@ -100,7 +103,7 @@ module SitemapBuilder
     
     def create_sitemap_folder(sitemap_folder)
       return if sitemap_folder.blank?
-      path = Rails.root + "/public/" + sitemap_folder
+      path = File.join(Rails.root, "/public/", sitemap_folder)
       unless File.exists?(path) && File.directory?(path)
         FileUtils.mkdir path, :mode => 0755, :verbose => true
       end
