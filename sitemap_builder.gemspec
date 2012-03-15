@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "sitemap_builder"
-  s.version = "1.0.0"
+  s.version = "1.1.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Franck D'agostini"]
-  s.date = "2012-03-13"
+  s.date = "2012-03-15"
   s.description = "Rails plugins to build sitemap.xml"
   s.email = "franck.dagostini@gmail.com"
   s.extra_rdoc_files = [
